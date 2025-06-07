@@ -106,7 +106,10 @@ impl HttpClientBuilder {
             supports_vpnless: false,
             http2: true,
             timeout_config: None,
-            max_concurrent_requests: None,
+            // Semi-arbitrary sensible default: high enough for plenty of
+            // concurrency in the event of slow servers, low enough to not
+            // consume excessive FDs or exceed reasonable HTTP/2 stream limits.
+            max_concurrent_requests: Some(64),
         })
     }
 
